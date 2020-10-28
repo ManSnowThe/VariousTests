@@ -53,7 +53,7 @@ namespace VariousTests.BLL.Services
         public async Task<ClaimsIdentity> Login(UserDTO userDto)
         {
             ClaimsIdentity claim = null;
-            var user = await Database.UserManager.FindAsync(userDto.Email, userDto.Password);
+            AppUser user = await Database.UserManager.FindAsync(userDto.Email, userDto.Password);
 
             if (user != null)
             {
@@ -62,22 +62,6 @@ namespace VariousTests.BLL.Services
 
             return claim;
         }
-
-        // Удалить
-        //public async Task SetInitialData(UserDTO adminDto, List<string> roles)
-        //{
-        //    foreach (string roleName in roles)
-        //    {
-        //        var role = await Database.RoleManager.FindByNameAsync(roleName);
-
-        //        if (role == null)
-        //        {
-        //            role = new AppRole { Name = roleName };
-        //            await Database.RoleManager.CreateAsync(role);
-        //        }
-        //    }
-        //    await Register(adminDto);
-        //}
 
         public void Dispose()
         {

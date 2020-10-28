@@ -13,7 +13,5 @@ namespace VariousTests.BLL.Interfaces
     {
         Task<Details> Register(UserDTO userDto);
         Task<ClaimsIdentity> Login(UserDTO userDto);
-        //Удалить
-        //Task SetInitialData(UserDTO adminDto, List<string> roles);
     }
 }

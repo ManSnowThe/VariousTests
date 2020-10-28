@@ -35,7 +35,7 @@ namespace VariousTests.WEB.Controllers
 
         public ActionResult Login()
         {
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
@@ -89,7 +89,7 @@ namespace VariousTests.WEB.Controllers
                 if (details.Succeeded)
                 {
                     // Изменить
-                    return View("SuccessRegister");
+                    return View("Index", "Home");
                 }
                 else
                 {
@@ -98,18 +98,5 @@ namespace VariousTests.WEB.Controllers
             }
             return View(model);
         }
-
-        // Удалить
-        //private async Task SetInitialDataAsync()
-        //{
-        //    await AccountService.SetInitialData(new UserDTO
-        //    {
-        //        Email = "admin@mail.com",
-        //        UserName = "admin",
-        //        Password = "Pass123",
-        //        Name = "Админ",
-        //        Role = "admin"
-        //    }, new List<string> { "user", "admin" });
-        //}
     }
 }
