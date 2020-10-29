@@ -12,6 +12,7 @@ using VariousTests.BLL.Infrastructure;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
 
 namespace VariousTests.WEB.Controllers
 {
@@ -88,8 +89,11 @@ namespace VariousTests.WEB.Controllers
                 Details details = await AccountService.Register(userDto);
                 if (details.Succeeded)
                 {
-                    // Изменить
-                    return View("Index", "Home");
+                    var code = await AccountService.GetCodeEmail(userDto);
+                    var callback = Url.Action("ConfirmEmail", "Account", new { userId = AccountService.GetUserId(userDto), code = code }, protocol: Request.Url.Scheme);
+                    await AccountService.GetCallback(userDto, callback);
+
+                    return View("DisplayEmail");
                 }
                 else
                 {
@@ -97,6 +101,16 @@ namespace VariousTests.WEB.Controllers
                 }
             }
             return View(model);
+        }
+
+        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+            IdentityResult result = await AccountService.ConfirmEmailAsync(userId, code);
+            return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
     }
 }
