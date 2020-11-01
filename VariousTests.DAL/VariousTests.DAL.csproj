@@ -60,11 +60,26 @@
     <Compile Include="EF\ApplicationContext.cs" />
     <Compile Include="Entities\AppRole.cs" />
     <Compile Include="Entities\AppUser.cs" />
+    <Compile Include="Entities\VarAnswer.cs" />
+    <Compile Include="Entities\VarQuestion.cs" />
+    <Compile Include="Entities\VarTest.cs" />
     <Compile Include="Entities\UserProfile.cs" />
+    <Compile Include="Entities\VarTopic.cs" />
     <Compile Include="Identity\AppRoleManager.cs" />
     <Compile Include="Identity\AppUserManager.cs" />
     <Compile Include="Interfaces\IIdentityUnitOfWork.cs" />
     <Compile Include="Interfaces\IProfileManager.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Migrations\202011011429138_VariousTest1.cs" />
+    <Compile Include="Migrations\202011011429138_VariousTest1.designer.cs">
+      <DependentUpon>202011011429138_VariousTest1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011011456597_VariousTest2.cs" />
+    <Compile Include="Migrations\202011011456597_VariousTest2.designer.cs">
+      <DependentUpon>202011011456597_VariousTest2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IdentityUnitOfWork.cs" />
     <Compile Include="Repositories\ProfileManager.cs" />
@@ -73,7 +88,14 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202011011429138_VariousTest1.resx">
+      <DependentUpon>202011011429138_VariousTest1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011011456597_VariousTest2.resx">
+      <DependentUpon>202011011456597_VariousTest2.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

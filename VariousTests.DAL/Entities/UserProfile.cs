@@ -17,5 +17,8 @@ namespace VariousTests.DAL.Entities
         public string UserName { get; set; }
 
         public virtual AppUser ApplicationUser { get; set; }
+
+        // Один ко многим + многие ко многим
+        public ICollection<VarTest> Tests { get; set; }
     }
 }

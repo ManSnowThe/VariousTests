@@ -4,7 +4,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-<p>Ваша учетная запись подтверждена. Можете использовать свои данные, чтобы войти в @Html.ActionLink("систему", "Login", "Account").</p>
+<p>Ваша учетная запись подтверждена. Можете использовать свои данные, чтобы войти в @Html.ActionLink("систему", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "loginItem" }).</p>
 
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
