@@ -20,6 +20,7 @@ namespace VariousTests.BLL.Infrastructure
         public override void Load()
         {
             Bind<IIdentityUnitOfWork>().To<IdentityUnitOfWork>().WithConstructorArgument(connectionString);
+            Bind<IUnitOfWork>().To<UnitOfWork>().WithConstructorArgument(connectionString);
         }
     }
 }

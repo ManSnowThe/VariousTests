@@ -9,10 +9,10 @@ namespace VariousTests.DAL.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<VarTest> Tests { get; }
-        IRepository<VarTopic> Topics { get; }
-        IRepository<VarQuestion> Questions { get; }
-        IRepository<VarAnswer> Answers { get; }
+        IRepository<VarTest> TestRepository { get; }
+        IRepository<VarTopic> TopicRepository { get; }
+        IRepository<VarQuestion> QuestionRepository { get; }
+        IRepository<VarAnswer> AnswerRepository { get; }
 
         Task SaveAsync();
     }

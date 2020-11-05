@@ -84,13 +84,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\AnswerDTO.cs" />
+    <Compile Include="DTO\QuestionDTO.cs" />
+    <Compile Include="DTO\TestDTO.cs" />
+    <Compile Include="DTO\TopicDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Infrastructure\Details.cs" />
+    <Compile Include="Infrastructure\DetailsException.cs" />
     <Compile Include="Infrastructure\EmailService.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
     <Compile Include="Interfaces\IAccountService.cs" />
+    <Compile Include="Interfaces\ITestService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\TestService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VariousTests.DAL\VariousTests.DAL.csproj">
