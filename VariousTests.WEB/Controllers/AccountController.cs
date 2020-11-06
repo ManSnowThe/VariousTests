@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
+using VariousTests.WEB.Filters;
 
 namespace VariousTests.WEB.Controllers
 {
@@ -34,6 +35,7 @@ namespace VariousTests.WEB.Controllers
             }
         }
 
+        [AlreadyAuthorize]
         public ActionResult Login()
         {
             return PartialView();
@@ -71,6 +73,7 @@ namespace VariousTests.WEB.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [AlreadyAuthorize]
         public ActionResult Register()
         {
             return View();

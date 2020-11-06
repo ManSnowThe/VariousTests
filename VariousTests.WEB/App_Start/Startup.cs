@@ -18,6 +18,8 @@ namespace VariousTests.WEB.App_Start
         public void Configuration(IAppBuilder app)
         {
             app.CreatePerOwinContext<IAccountService>(KernelHolder.CreateAccountService);
+            app.CreatePerOwinContext<ITestService>(KernelHolder.CreateTestService);
+
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,

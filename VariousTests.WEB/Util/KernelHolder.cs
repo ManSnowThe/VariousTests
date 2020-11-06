@@ -22,7 +22,8 @@ namespace VariousTests.WEB.Util
                 {
                     NinjectModule serviceModule = new ServiceModule("AppConnection");
                     NinjectModule accountModule = new AccountModule();
-                    kernel = new StandardKernel(serviceModule, accountModule);
+                    NinjectModule testModule = new TestModule();
+                    kernel = new StandardKernel(serviceModule, accountModule, testModule);
                     kernel.Unbind<ModelValidatorProvider>();
                 }
                 return kernel;
@@ -32,6 +33,11 @@ namespace VariousTests.WEB.Util
         public static IAccountService CreateAccountService()
         {
             return KernelHolder.Kernel.Get<IAccountService>();
+        }
+
+        public static ITestService CreateTestService()
+        {
+            return KernelHolder.Kernel.Get<ITestService>();
         }
     }
 }
