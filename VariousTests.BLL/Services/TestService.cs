@@ -21,13 +21,13 @@ namespace VariousTests.BLL.Services
             Database = uow;
         }
 
-        public async Task<Details> CreateTest(TestDTO testDto)
+        public async Task<(Details details, int id)> CreateTest(TestDTO testDto)
         {
             var test = await Database.TestRepository.Get(testDto.Id);
 
             if (test != null)
             {
-                return new Details(false, "При создании теста что-то пошло не так", "");
+                return (details: new Details(false, "При создании теста что-то пошло не так", ""), id : 0);
             }
 
             VarTest varTest = new VarTest
@@ -42,12 +42,14 @@ namespace VariousTests.BLL.Services
             Database.TestRepository.Create(varTest);
             await Database.SaveAsync();
 
-            return new Details(true, "Тест создан успешно", "");
+            int testId = varTest.Id;
+
+            return (details: new Details(true, "Тест создан успешно", ""), id: testId);
         }
 
         public async Task<Details> AddQuestion(QuestionDTO questionDto)
         {
-            var test = await Database.QuestionRepository.Get(questionDto.TestId);
+            var test = await Database.TestRepository.Get(questionDto.TestId);
 
             if (test == null)
             {

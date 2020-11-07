@@ -230,6 +230,9 @@
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Test\CreateTest.cshtml" />
+    <Content Include="Views\Test\AddQuestion.cshtml" />
+    <Content Include="Views\Test\AddQuestionPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

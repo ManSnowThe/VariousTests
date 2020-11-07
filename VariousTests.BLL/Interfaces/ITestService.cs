@@ -10,7 +10,7 @@ namespace VariousTests.BLL.Interfaces
 {
     public interface ITestService : IDisposable
     {
-        Task<Details> CreateTest(TestDTO testDto);
+        Task<(Details details, int id)> CreateTest(TestDTO testDto);
         IEnumerable<TopicDTO> GetTopics(); 
         Task<Details> AddQuestion(QuestionDTO questionDto);
         Task<Details> AddAnswer(AnswerDTO answerDTO);

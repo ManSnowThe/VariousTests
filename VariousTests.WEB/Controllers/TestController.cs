@@ -37,6 +37,9 @@ namespace VariousTests.WEB.Controllers
 
         public ActionResult CreateTest()
         {
+            SelectList topics = new SelectList(TestService.GetTopics(), "Id", "Name");
+            //ViewData.Add("DropDownTopics", topics);
+            ViewBag.Topics = topics;
             return View();
         }
 
@@ -50,23 +53,49 @@ namespace VariousTests.WEB.Controllers
                 .ForMember("AuthorId", opt => opt.MapFrom(src => User.Identity.GetUserId()))).CreateMapper();
                 var testDto = mapper.Map<TestViewModel, TestDTO>(model);
 
-                Details details = await TestService.CreateTest(testDto);
-                if (details.Succeeded)
+                var tuple = await TestService.CreateTest(testDto);
+                if (tuple.details.Succeeded)
                 {
-                    return View("Index");
+                    return RedirectToAction("AddQuestion", "Test", new { id = tuple.id });
                 }
                 else
                 {
-                    ModelState.AddModelError(details.Property, details.Message);
+                    ModelState.AddModelError(tuple.details.Property, tuple.details.Message);
                 }
             }
             return View(model);
         }
 
-        public ActionResult AddQuestion()
+        public async Task<ActionResult> AddQuestion(int? id)
         {
-            return PartialView();
+            try
+            {
+                TestDTO testDto = await TestService.GetTest(id);
+                var question = new QuestionViewModel { TestId = testDto.Id };
+
+                return View(question);
+            }
+            catch (DetailsException ex)
+            {
+                return Content(ex.Message);
+            }
         }
+
+        //[HttpGet]
+        //public async Task<ActionResult> AddQuestionPartial(int? id)
+        //{
+        //    try
+        //    {
+        //        TestDTO testDto = await TestService.GetTest(id);
+        //        var question = new QuestionViewModel { TestId = testDto.Id };
+
+        //        return PartialView(question);
+        //    }
+        //    catch (DetailsException ex)
+        //    {
+        //        return Content(ex.Message);
+        //    }
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -75,11 +104,11 @@ namespace VariousTests.WEB.Controllers
             if (ModelState.IsValid)
             {
                 var questionDto = new QuestionDTO { Name = model.Name, TestId = model.TestId };
-
                 Details details = await TestService.AddQuestion(questionDto);
                 if (details.Succeeded)
                 {
-                    return View("Index");
+                    //return View("Index");
+                    return RedirectToAction("Index", "Test");
                 }
                 else
                 {
