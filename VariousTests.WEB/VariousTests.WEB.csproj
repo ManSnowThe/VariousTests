@@ -233,6 +233,7 @@
     <Content Include="Views\Test\CreateTest.cshtml" />
     <Content Include="Views\Test\AddQuestion.cshtml" />
     <Content Include="Views\Test\AddQuestionPartial.cshtml" />
+    <Content Include="Views\Test\AddAnswer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

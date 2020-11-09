@@ -1,6 +1,5 @@
 ﻿@model VariousTests.WEB.Models.QuestionViewModel
 
-<div class="form-horizontal">
     <input type="hidden" name="TestId" value="@Model.TestId" />
 
     <div class="form-group">
@@ -13,7 +12,6 @@
 
     <div class="form-group" id="question">
         <div class="col-md-10">
-            @Ajax.ActionLink("Добавить вопрос", "AddQuestionPartial", "Test", new { id = Model.TestId }, new AjaxOptions { UpdateTargetId = "question", InsertionMode = InsertionMode.InsertAfter })
+            @Ajax.ActionLink("Добавить вопрос", "AddQuestionPartial", "Test", new { id = Model.TestId }, new AjaxOptions { UpdateTargetId = "question", InsertionMode = InsertionMode.ReplaceWith })
         </div>
     </div>
-</div>

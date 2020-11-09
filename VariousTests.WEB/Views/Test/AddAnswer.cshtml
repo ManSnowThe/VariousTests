@@ -1,0 +1,68 @@
+﻿@model VariousTests.WEB.Models.AnswerViewModel
+
+@{
+    ViewBag.Title = "Answers";
+}
+
+<hr />
+
+<div id='anName'><h2>Добавьте ответ № 1</h2></div>
+<div id="results"></div>
+
+<div id="loading" style="display:none; color:Red; font-weight:bold;">
+    <p>Добавление данных...</p>
+</div>
+
+@using (Ajax.BeginForm("AddAnswer", "Test", FormMethod.Post, new AjaxOptions { UpdateTargetId = "results", LoadingElementId = "loading", LoadingElementDuration = 1000, OnComplete = "OnComplete" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <input type="hidden" name="QuestionId" value="@Model.QuestionId" />
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Right, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.Right, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Right, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-horizontal">
+            <div class="col-md-offset-2 col-md-4">
+                <input type="submit" id='but' class="btn btn-default" value="Добавить" />
+                <div id="hideDiv" style='display: none;'>@Html.ActionLink("Добавить новый вопрос", "AddQuestion", "Test", new { id = ViewBag.TestId }, htmlAttributes: new { @class = "btn btn-default" })</div>
+                <div id="hideDiv2" style='display: none;'>@Html.ActionLink("Закончить", "Index", "Test", htmlAttributes: new { @class = "btn btn-default" })</div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section scripts{
+<script type="text/javascript">
+    var i = 0;
+    function OnComplete() {
+        $(function () {
+            i++;
+            var html2Add = "<div id='anName'>" +
+                "<h2>Добавьте ответ № " + (i + 1) + "</h2></div>";
+            $('#anName').replaceWith(html2Add);
+
+            document.getElementById('Name').value = '';
+            document.getElementById('Right').checked = false;
+
+            document.getElementById("hideDiv").style.display = "inline";
+            document.getElementById("hideDiv2").style.display = "inline";
+        })
+    }
+</script>
+}

@@ -27,7 +27,7 @@ namespace VariousTests.BLL.Services
 
             if (test != null)
             {
-                return (details: new Details(false, "При создании теста что-то пошло не так", ""), id : 0);
+                return (details: new Details(false, "При создании теста что-то пошло не так", ""), id: 0);
             }
 
             VarTest varTest = new VarTest
@@ -47,13 +47,13 @@ namespace VariousTests.BLL.Services
             return (details: new Details(true, "Тест создан успешно", ""), id: testId);
         }
 
-        public async Task<Details> AddQuestion(QuestionDTO questionDto)
+        public async Task<(Details details, int id)> AddQuestion(QuestionDTO questionDto)
         {
             var test = await Database.TestRepository.Get(questionDto.TestId);
 
             if (test == null)
             {
-                return new Details(false, "Ошибка был при создании вопроса, повторите попытку", "");
+                return (details: new Details(false, "Ошибка был при создании вопроса, повторите попытку", ""), id: 0);
             }
 
             VarQuestion varQuestion = new VarQuestion
@@ -65,12 +65,43 @@ namespace VariousTests.BLL.Services
             Database.QuestionRepository.Create(varQuestion);
             await Database.SaveAsync();
 
-            return new Details(true, "Вопрос добавлен", "");
+            int questId = varQuestion.Id;
+
+            return (details: new Details(true, "Вопрос добавлен", ""), id: questId);
         }
+
+        //// Залить сразу несколько вопросов
+        //public async Task<Details> AddQuestions(IEnumerable<QuestionDTO> questionDtos)
+        //{
+        //    var test = await Database.TestRepository.Get(questionDtos.FirstOrDefault().TestId);
+
+        //    if (test == null)
+        //    {
+        //        return new Details(false, "Ошибка при создании вопроса, повторите попытку", "");
+        //    }
+
+        //    //List<VarQuestion> varQuest = new List<VarQuestion>();
+
+        //    foreach(QuestionDTO qDto in questionDtos)
+        //    {
+        //        VarQuestion varQuestion = new VarQuestion
+        //        {
+        //            Name = qDto.Name,
+        //            TestId = test.Id
+        //        };
+        //        //varQuest.Add(varQuestion);
+        //        Database.QuestionRepository.Create(varQuestion);
+        //    }
+
+        //    //Database.QuestionRepository.Create(varQuest);
+        //    await Database.SaveAsync();
+
+        //    return new Details(true, "Вопросы добавлены", "");
+        //}
 
         public async Task<Details> AddAnswer(AnswerDTO answerDto)
         {
-            var question = await Database.AnswerRepository.Get(answerDto.QuestionId);
+            var question = await Database.QuestionRepository.Get(answerDto.QuestionId);
 
             if (question == null)
             {
@@ -144,6 +175,24 @@ namespace VariousTests.BLL.Services
 
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<VarAnswer, AnswerDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<VarAnswer>, List<AnswerDTO>>(Database.AnswerRepository.Find(answer => answer.QuestionId == question.Id));
+        }
+
+        public async Task<QuestionDTO> GetQuestion(int? id)
+        {
+            if (id == null)
+            {
+                throw new DetailsException("Не указан id вопроса", "");
+            }
+
+            var question = await Database.QuestionRepository.Get(id.Value);
+
+            if (question == null)
+            {
+                throw new DetailsException("Вопрос не найден", "");
+            }
+
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<VarQuestion, QuestionDTO>()).CreateMapper();
+            return mapper.Map<VarQuestion, QuestionDTO>(question);
         }
 
         public void Dispose()

@@ -4,31 +4,53 @@
     ViewBag.Title = "Questions";
 }
 
-@using (Html.BeginForm())
+<hr />
+
+@using (Html.BeginForm("AddQuestion", "Test", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <input type="hidden" name="TestId" value="@Model.TestId" />
 
-        <div class="form-group">
-            @Html.LabelFor(m => m.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+        <div id="questionBlock">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 
         @*<div class="form-group" id="question">
-                <div class="col-md-10">
-                    @Ajax.ActionLink("Добавить вопрос", "AddQuestionPartial", "Test", new { id = Model.TestId }, new AjaxOptions { UpdateTargetId = "question", InsertionMode = InsertionMode.InsertAfter })
-                </div>
-            </div>*@
+            <div class="col-md-10">
+                @Ajax.ActionLink("Добавить вопрос", "AddQuestionPartial", "Test", new { id = Model.TestId }, new AjaxOptions { UpdateTargetId = "question", InsertionMode = InsertionMode.ReplaceWith })
+            </div>
+        </div>*@
+
+        @*<p><a class='addLink'>Добавить вопрос</a></p>*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-default" value="Добавить" />
+                <input type="submit" class="btn btn-default" value="Добавить" id="btnItem" />
             </div>
         </div>
     </div>
 }
+
+@*@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            var i = 0;
+            $('.addLink').click(function () {
+                i++;
+                var html2Add = "<div class='form-group'>" +
+                    "<div class='col-md-10'>" +
+                    "<input type='text' name='Name[" + i + "]' />" +
+                        "</div></div>";
+                    $('#questionBlock').append(html2Add);
+                })
+        })
+    </script>
+    }*@

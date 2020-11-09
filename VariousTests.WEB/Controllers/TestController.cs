@@ -66,6 +66,7 @@ namespace VariousTests.WEB.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public async Task<ActionResult> AddQuestion(int? id)
         {
             try
@@ -74,11 +75,36 @@ namespace VariousTests.WEB.Controllers
                 var question = new QuestionViewModel { TestId = testDto.Id };
 
                 return View(question);
+
+                //TestDTO testDto = await TestService.GetTest(id);
+                //ViewBag.TestId = testDto.Id;
+                //return View();
             }
             catch (DetailsException ex)
             {
                 return Content(ex.Message);
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddQuestion(QuestionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var questionDto = new QuestionDTO { Name = model.Name, TestId = model.TestId };
+                var tuple = await TestService.AddQuestion(questionDto);
+                if (tuple.details.Succeeded)
+                {
+                    //return View("Index");
+                    return RedirectToAction("AddAnswer", "Test", new { id = tuple.id });
+                }
+                else
+                {
+                    ModelState.AddModelError(tuple.details.Property, tuple.details.Message);
+                }
+            }
+            return View(model);
         }
 
         //[HttpGet]
@@ -97,35 +123,48 @@ namespace VariousTests.WEB.Controllers
         //    }
         //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddQuestion(QuestionViewModel model)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> AddQuestions(IEnumerable<QuestionViewModel> models)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var mapper = new MapperConfiguration(cfg => cfg.CreateMap<QuestionViewModel, QuestionDTO>()).CreateMapper();
+        //        var questionDtos = mapper.Map<IEnumerable<QuestionViewModel>, IEnumerable<QuestionDTO>>(models);
+
+        //        Details details = await TestService.AddQuestions(questionDtos);
+        //        if (details.Succeeded)
+        //        {
+        //            return RedirectToAction("Index", "Test");
+        //        }
+        //        else
+        //        {
+        //            ModelState.AddModelError(details.Property, details.Message);
+        //        }
+        //    }
+        //    return View(models);
+        //}
+
+        [HttpGet]
+        public async Task<ActionResult> AddAnswer(int? id)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var questionDto = new QuestionDTO { Name = model.Name, TestId = model.TestId };
-                Details details = await TestService.AddQuestion(questionDto);
-                if (details.Succeeded)
-                {
-                    //return View("Index");
-                    return RedirectToAction("Index", "Test");
-                }
-                else
-                {
-                    ModelState.AddModelError(details.Property, details.Message);
-                }
-            }
-            return View(model);
-        }
+                QuestionDTO questDto = await TestService.GetQuestion(id);
+                var answer = new AnswerViewModel { QuestionId = questDto.Id };
 
-        public ActionResult AddAnswer()
-        {
-            return PartialView();
+                ViewBag.TestId = questDto.TestId;
+                return View(answer);
+            }
+            catch (DetailsException ex)
+            {
+                return Content(ex.Message);
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddAnswer(AnswerViewModel model)
+        public async Task<JsonResult> AddAnswer(AnswerViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -134,14 +173,18 @@ namespace VariousTests.WEB.Controllers
                 Details details = await TestService.AddAnswer(answerDto);
                 if (details.Succeeded)
                 {
-                    return View("Index");
+                    //return RedirectToAction("AddAnswer", "Test");
+                    //return View(model);
+                    return Json(model, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     ModelState.AddModelError(details.Property, details.Message);
                 }
             }
-            return View(model);
+            //return View(model);
+            return Json(model, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

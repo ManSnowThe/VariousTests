@@ -12,11 +12,13 @@ namespace VariousTests.BLL.Interfaces
     {
         Task<(Details details, int id)> CreateTest(TestDTO testDto);
         IEnumerable<TopicDTO> GetTopics(); 
-        Task<Details> AddQuestion(QuestionDTO questionDto);
+        Task<(Details details, int id)> AddQuestion(QuestionDTO questionDto);
         Task<Details> AddAnswer(AnswerDTO answerDTO);
         IEnumerable<TestDTO> GetTests();
         Task<TestDTO> GetTest(int? id);
         Task<IEnumerable<QuestionDTO>> GetQuestions(TestDTO testDto);
         Task<IEnumerable<AnswerDTO>> GetAnswers(QuestionDTO questionDto);
+        Task<QuestionDTO> GetQuestion(int? id);
+        //Task<Details> AddQuestions(IEnumerable<QuestionDTO> questionDtos);
     }
 }
