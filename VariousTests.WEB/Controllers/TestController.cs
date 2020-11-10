@@ -186,5 +186,25 @@ namespace VariousTests.WEB.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
 
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Tests(int? id)
+        {
+            try
+            {
+                TestDTO testDto = await TestService.GetTest(id);
+                IEnumerable<QuestionDTO> questionDtos = await TestService.GetQuestions(testDto);
+                ViewBag.Name = testDto.Name;
+
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<QuestionDTO, QuestionViewModel>()).CreateMapper();
+                var quest = mapper.Map<IEnumerable<QuestionDTO>, List<QuestionViewModel>>(questionDtos);
+
+                return View(quest);
+            }
+            catch(DetailsException ex)
+            {
+                return Content(ex.Message);
+            }
+        }
     }
 }

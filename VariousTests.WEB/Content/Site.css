@@ -22,3 +22,13 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#navav {
+    background-color: #045947 !important;
+}
+a {
+    color: #0ADFB3 !important;
+}
+a:hover {
+    color: #079C7D !important;
+}

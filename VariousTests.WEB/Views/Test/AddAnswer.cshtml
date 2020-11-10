@@ -1,7 +1,7 @@
 ﻿@model VariousTests.WEB.Models.AnswerViewModel
 
 @{
-    ViewBag.Title = "Answers";
+    ViewBag.Title = "Ответы";
 }
 
 <hr />
@@ -36,11 +36,11 @@
             </div>
         </div>
 
-        <div class="form-horizontal">
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-4">
-                <input type="submit" id='but' class="btn btn-default" value="Добавить" />
+                <input type="submit" id='but' class="btn btn-primary" value="Добавить ответ" />
                 <div id="hideDiv" style='display: none;'>@Html.ActionLink("Добавить новый вопрос", "AddQuestion", "Test", new { id = ViewBag.TestId }, htmlAttributes: new { @class = "btn btn-default" })</div>
-                <div id="hideDiv2" style='display: none;'>@Html.ActionLink("Закончить", "Index", "Test", htmlAttributes: new { @class = "btn btn-default" })</div>
+                <div id="hideDiv2" style='display: none;'>@Html.ActionLink("Закончить", "Index", "Test", null, htmlAttributes: new { @class = "btn btn-success" })</div>
             </div>
         </div>
     </div>
