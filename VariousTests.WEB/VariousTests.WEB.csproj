@@ -178,6 +178,7 @@
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\QuestionViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="Models\SolutionViewModel.cs" />
     <Compile Include="Models\TestViewModel.cs" />
     <Compile Include="Models\TopicViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

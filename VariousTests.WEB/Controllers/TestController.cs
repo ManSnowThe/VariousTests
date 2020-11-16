@@ -193,13 +193,29 @@ namespace VariousTests.WEB.Controllers
             try
             {
                 TestDTO testDto = await TestService.GetTest(id);
-                IEnumerable<QuestionDTO> questionDtos = await TestService.GetQuestions(testDto);
                 ViewBag.Name = testDto.Name;
 
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<QuestionDTO, QuestionViewModel>()).CreateMapper();
-                var quest = mapper.Map<IEnumerable<QuestionDTO>, List<QuestionViewModel>>(questionDtos);
+                IEnumerable<QuestionDTO> questionDtos = await TestService.GetQuestions(testDto);
+                var questMapper = new MapperConfiguration(cfg => cfg.CreateMap<QuestionDTO, QuestionViewModel>()).CreateMapper();
+                var quest = questMapper.Map<IEnumerable<QuestionDTO>, List<QuestionViewModel>>(questionDtos);
 
-                return View(quest);
+                IEnumerable<AnswerDTO> answerDtos = new List<AnswerDTO>();
+                foreach(var question in questionDtos)
+                {
+                    var answers = await TestService.GetAnswers(question);
+                    answerDtos = answerDtos.Concat(answers);
+                }
+
+                var answerMapper = new MapperConfiguration(cfg => cfg.CreateMap<AnswerDTO, AnswerViewModel>()).CreateMapper();
+                var answer = answerMapper.Map<IEnumerable<AnswerDTO>, List<AnswerViewModel>>(answerDtos);
+
+                var model = new SolutionViewModel
+                {
+                    Questions = quest,
+                    Answers = answer
+                };
+
+                return View(model);
             }
             catch(DetailsException ex)
             {

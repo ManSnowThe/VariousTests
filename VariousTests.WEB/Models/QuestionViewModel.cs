@@ -8,6 +8,7 @@ namespace VariousTests.WEB.Models
 {
     public class QuestionViewModel
     {
+        public int Id { get; set; }
         [Required]
         [Display(Name = "Ваш вопрос")]
         public string Name { get; set; }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VariousTests.WEB.Models.QuestionViewModel>
+﻿@model VariousTests.WEB.Models.SolutionViewModel
 
 @{
     ViewBag.Title = ViewBag.Name;
@@ -9,7 +9,7 @@
 
 <table>
     @{ int i = 0;}
-    @foreach (var item in Model)
+    @foreach (var item in Model.Questions)
     {
         <tr>
             <td>
@@ -18,10 +18,33 @@
                     <hr />
                     <label for="Name" class="col-md-10 control-label">Вопрос № @i</label>
                     <div class="col-md-10">
-                        @Html.DisplayFor(modelItem => item.Name, new { @class = "form-control" })
+                        <h4>@Html.DisplayFor(modelItem => item.Name, new { @class = "form-control" })</h4>
+                        @foreach (var newItem in Model.Answers)
+                        {
+                            if (item.Id == newItem.QuestionId)
+                            {
+                                <div class="col-md-10">
+                                @Html.CheckBoxFor(modelItem => newItem.Right, new { @class = "form-check" })
+                                @Html.DisplayFor(modelItem => newItem.Name, new { @class = "form-control" })
+                                <br />
+                                </div>
+                            }
+                        }
                     </div>
                 </div>
             </td>
         </tr>
     }
 </table>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            var check = document.getElementsByName('newItem.Right');
+            var i;
+            for (i = 0; i < check.length; i++) {
+                check[i].checked = false;
+            }
+        });
+    </script>
+}
